@@ -13,7 +13,8 @@ export default function Chat() {
       try {
         await checkEnv();
       } catch (e) {
-        setError(e);
+        console.log(e);
+        if (e instanceof Error) setError(e?.message);
       }
     };
     checkBrowser();
@@ -21,7 +22,7 @@ export default function Chat() {
 
   return (
     <div>
-      {error && <CheckEnv />}
+      {error && <CheckEnv error={error} />}
       <ChatComponent error={error} />
     </div>
   );

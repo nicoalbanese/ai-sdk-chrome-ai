@@ -9,7 +9,7 @@ import Link from "next/link";
 import { FlagAccordion } from "./flag-table";
 import { IncompatibleBrowserAlert } from "./incompatible-alert";
 
-export function CheckEnv() {
+export function CheckEnv({ error }: { error: any }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="h-full sm:h-fit flex flex-col items-center justify-start sm:justify-center gap-4 rounded-lg bg-white p-8 max-w-2xl">
@@ -29,7 +29,7 @@ export function CheckEnv() {
         </p>
         <div className="w-full pt-2 space-y-2">
           <div>
-            <IncompatibleBrowserAlert />
+            <IncompatibleBrowserAlert error={error} />
           </div>
           <FlagAccordion />
         </div>

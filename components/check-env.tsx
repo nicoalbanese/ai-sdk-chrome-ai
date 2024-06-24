@@ -16,16 +16,16 @@ export function CheckEnv() {
         <h2 className="text-3xl font-bold">Chrome AI Chatbot</h2>
         <p>
           This chatbot demo uses Next.js and Vercel AI SDK with the `chrome-ai`
-          provider to call Chrome's{" "}
+          provider to call Chrome&poas;s{" "}
           <Link href="https://developer.chrome.com/docs/ai/built-in">
             built-in AI
           </Link>{" "}
           model (Gemini Nano).
         </p>
         <p>
-          Gemini Nano&apos;s Prompt API is exposed on the browser's `window.ai`
-          function. It can be easily called with Vercel AI SDK&apos;s unified
-          API.
+          Gemini Nano&apos;s Prompt API is exposed on the browser&apos;s
+          `window.ai` function. It can be easily called with Vercel AI
+          SDK&apos;s unified API.
         </p>
         <div className="w-full pt-2 space-y-2">
           <div>

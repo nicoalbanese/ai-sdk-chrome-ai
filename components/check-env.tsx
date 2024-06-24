@@ -23,8 +23,9 @@ export function CheckEnv() {
           model (Gemini Nano).
         </p>
         <p>
-          Gemini Nano's Prompt API is exposed on the browser's `window.ai`
-          function. It can be easily called with Vercel AI SDK's unified API.
+          Gemini Nano&apos;s Prompt API is exposed on the browser's `window.ai`
+          function. It can be easily called with Vercel AI SDK&apos;s unified
+          API.
         </p>
         <div className="w-full pt-2 space-y-2">
           <div>

@@ -11,7 +11,7 @@ export function FlagAccordion() {
       <AccordionItem value="item-1">
         <AccordionTrigger>Supported Browsers</AccordionTrigger>
         <AccordionContent>
-          Please make sure you're using Chrome (dev / canary) version 127 or
+          Please make sure you are using Chrome (dev / canary) version 127 or
           higher.
         </AccordionContent>
       </AccordionItem>

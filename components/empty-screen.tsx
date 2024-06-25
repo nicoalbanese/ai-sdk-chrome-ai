@@ -28,7 +28,7 @@ export const EmptyScreen = () => {
         provider.
       </p>
       <p className="leading-normal">
-        It uses Google Chrome's built-in large language model, Gemini Nano.
+        It uses Google Chrome&apos;s built-in large language model, Gemini Nano.
       </p>
     </div>
   );

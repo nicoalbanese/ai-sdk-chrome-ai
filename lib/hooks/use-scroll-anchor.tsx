@@ -5,65 +5,57 @@ export const useScrollAnchor = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const messagesRef = useRef<HTMLDivElement>(null);
   const lastScrollRef = useRef(0);
-  const [scrolling, setScrolling] = useState(false);
-  const [isAtBottom, setIsAtBottom] = useState(false);
+  const targetScrollHeightRef = useRef(0);
+  const [hasNotScrolled, setHasNotScrolled] = useState(false);
 
-  const getBehavior = useCallback(() => {
+  const isAtBottom = useCallback((scrollHeight: number) => {
     const container = containerRef.current;
-    const messages = messagesRef.current;
-    if (!container || !messages) return "instant";
-    return container.scrollHeight -
-      (messages.clientHeight + container.scrollTop) <
-      100
-      ? "instant"
-      : "smooth";
+    if (!container) return "instant";
+    return scrollHeight - (container.scrollTop + container.clientHeight) < 100;
   }, []);
 
   const scrollToBottom = useCallback(() => {
     const container = containerRef.current;
-    const messages = messagesRef.current;
-    setIsAtBottom(true);
+    if (!container) return;
 
-    if (!container || !messages) return;
+    setHasNotScrolled(true);
+    targetScrollHeightRef.current = container.scrollHeight;
 
-    setScrolling(true);
     container.scrollTo({
-      top: container.scrollTop,
-      left: 0,
-      behavior: getBehavior(),
+      top: container.scrollHeight,
+      behavior: isAtBottom(container.scrollHeight) ? "instant" : "smooth",
     });
-    setTimeout(() => setScrolling(false), 750);
-  }, [getBehavior]);
+  }, [isAtBottom]);
 
   useEffect(() => {
     const container = containerRef.current;
     const messages = messagesRef.current;
-
     if (!container || !messages) return;
 
     const observer = new ResizeObserver(() => {
-      const behavior = getBehavior();
-      if (isAtBottom && (!scrolling || behavior === "instant")) {
+      const atBottom = isAtBottom(targetScrollHeightRef.current);
+      if (hasNotScrolled && atBottom) {
         container.scrollTo({
-          top: messages.clientHeight,
-          left: 0,
-          behavior: getBehavior(),
+          top: container.scrollHeight,
+          behavior: "instant",
         });
       }
     });
     observer.observe(messages);
     return () => observer.disconnect();
-  }, [getBehavior, isAtBottom, scrolling]);
+  }, [isAtBottom, hasNotScrolled]);
 
-  useEventListener("scroll", () => {
-    const container = containerRef.current;
-    const messages = messagesRef.current;
+  useEventListener(
+    "scroll",
+    () => {
+      const container = containerRef.current;
+      if (!container) return;
 
-    if (!container || !messages) return;
-
-    if (container.scrollTop < lastScrollRef.current) setIsAtBottom(false);
-    lastScrollRef.current = container.scrollTop;
-  });
+      if (container.scrollTop < lastScrollRef.current) setHasNotScrolled(false);
+      lastScrollRef.current = container.scrollTop;
+    },
+    containerRef,
+  );
 
   return {
     messagesRef,

@@ -34,8 +34,7 @@ export function ChatComponent({ error }: { error: any }) {
   const { containerRef, messagesRef, scrollToBottom } = useScrollAnchor();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    console.log("hello");
-    setTimeout(scrollToBottom, 200);
+    scrollToBottom();
     e.preventDefault();
     const newMessages: CoreMessage[] = [
       ...messages,
@@ -61,7 +60,10 @@ export function ChatComponent({ error }: { error: any }) {
   return (
     <div className="flex flex-col h-screen">
       <div className="flex-1 p-4 overflow-auto" ref={containerRef}>
-        <div className="flex flex-col gap-4 h-full py-4" ref={messagesRef}>
+        <div
+          className="flex min-h-full flex-col gap-4 py-4 overflow-visible"
+          ref={messagesRef}
+        >
           {messages.length > 0 ? (
             messages.map((m, i) =>
               m.role === "user" ? (
@@ -71,7 +73,7 @@ export function ChatComponent({ error }: { error: any }) {
               ) : null,
             )
           ) : (
-            <div className="mx-auto text-center w-full max-w-md flex items-center justify-center h-full">
+            <div className="mx-auto my-auto text-center w-full max-w-md flex items-center justify-center h-full">
               <EmptyScreen />
             </div>
           )}

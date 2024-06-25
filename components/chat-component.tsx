@@ -40,10 +40,9 @@ export function ChatComponent({ error }: { error: any }) {
 
     try {
       const { textStream } = await streamText({
-        model: chromeai(),
-        system:
-          "You are a helpful assistant. If the user greets you, please greet them back. If the users' message is not long enough, please respond saying it is not long enough for this model.",
-        messages: newMessages,
+        model: chromeai("generic", {}),
+        system: "Complete the conversation as if you were the model!",
+        messages: newMessages.slice(-1),
       });
       for await (const textPart of textStream) {
         setMessages([...newMessages, { role: "assistant", content: textPart }]);

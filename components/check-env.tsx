@@ -14,10 +14,13 @@ export function CheckEnv({ error }: { error: any }) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="h-full sm:h-fit flex flex-col items-center justify-start sm:justify-center gap-4 rounded-lg bg-white p-8 max-w-2xl">
         <h2 className="text-3xl font-bold">Chrome AI Chatbot</h2>
-        <p>
+        <p className="">
           This chatbot demo uses Next.js and Vercel AI SDK with the `chrome-ai`
           provider to call Chrome&apos;s{" "}
-          <Link href="https://developer.chrome.com/docs/ai/built-in">
+          <Link
+            className="hover:underline text-neutral-900"
+            href="https://developer.chrome.com/docs/ai/built-in"
+          >
             built-in AI
           </Link>{" "}
           model (Gemini Nano).

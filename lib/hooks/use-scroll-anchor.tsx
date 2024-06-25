@@ -1,56 +1,73 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useEventListener } from "usehooks-ts";
 
-const getBehavior = () =>
-  document.body.scrollHeight - window.innerHeight - window.scrollY < 100
-    ? "instant"
-    : "smooth";
-
 export const useScrollAnchor = () => {
+  const containerRef = useRef<HTMLDivElement>(null);
   const messagesRef = useRef<HTMLDivElement>(null);
-  // A ref to the element that, if the visibility ref is intersecting, we consider it to NOT be visible
-  const inputRef = useRef<HTMLDivElement>(null);
   const lastScrollRef = useRef(0);
   const [scrolling, setScrolling] = useState(false);
   const [isAtBottom, setIsAtBottom] = useState(false);
 
-  const scrollToBottom = useCallback(() => {
-    setIsAtBottom(true);
-    if (messagesRef.current) {
-      setScrolling(true);
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        left: 0,
-        behavior: getBehavior(),
-      });
-      setTimeout(() => setScrolling(false), 750);
-    }
+  const getBehavior = useCallback(() => {
+    const container = containerRef.current;
+    const messages = messagesRef.current;
+    if (!container || !messages) return "instant";
+    return container.scrollHeight -
+      (messages.clientHeight + container.scrollTop) <
+      100
+      ? "instant"
+      : "smooth";
   }, []);
 
+  const scrollToBottom = useCallback(() => {
+    const container = containerRef.current;
+    const messages = messagesRef.current;
+    setIsAtBottom(true);
+
+    if (!container || !messages) return;
+
+    setScrolling(true);
+    container.scrollTo({
+      top: container.scrollTop,
+      left: 0,
+      behavior: getBehavior(),
+    });
+    setTimeout(() => setScrolling(false), 750);
+  }, [getBehavior]);
+
   useEffect(() => {
-    if (!messagesRef.current) return;
+    const container = containerRef.current;
+    const messages = messagesRef.current;
+
+    if (!container || !messages) return;
+
     const observer = new ResizeObserver(() => {
       const behavior = getBehavior();
       if (isAtBottom && (!scrolling || behavior === "instant")) {
-        window.scrollTo({
-          top: document.body.scrollHeight,
+        container.scrollTo({
+          top: messages.clientHeight,
           left: 0,
           behavior: getBehavior(),
         });
       }
     });
-    observer.observe(messagesRef.current);
+    observer.observe(messages);
     return () => observer.disconnect();
-  });
+  }, [getBehavior, isAtBottom, scrolling]);
 
   useEventListener("scroll", () => {
-    if (window.scrollY < lastScrollRef.current) setIsAtBottom(false);
-    lastScrollRef.current = window.scrollY;
+    const container = containerRef.current;
+    const messages = messagesRef.current;
+
+    if (!container || !messages) return;
+
+    if (container.scrollTop < lastScrollRef.current) setIsAtBottom(false);
+    lastScrollRef.current = container.scrollTop;
   });
 
   return {
     messagesRef,
-    inputRef,
+    containerRef,
     scrollToBottom,
   };
 };

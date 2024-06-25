@@ -31,9 +31,11 @@ import { useScrollAnchor } from "@/lib/hooks/use-scroll-anchor";
 export function ChatComponent({ error }: { error: any }) {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<CoreMessage[]>([]);
-  const { inputRef, messagesRef } = useScrollAnchor();
+  const { containerRef, messagesRef, scrollToBottom } = useScrollAnchor();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    console.log("hello");
+    setTimeout(scrollToBottom, 200);
     e.preventDefault();
     const newMessages: CoreMessage[] = [
       ...messages,
@@ -58,28 +60,28 @@ export function ChatComponent({ error }: { error: any }) {
 
   return (
     <div className="flex flex-col h-screen">
-      <div className="flex-1 overflow-auto p-4 space-y-4">
-        {messages.length > 0 ? (
-          <div ref={messagesRef}>
-            {messages.map((m, i) =>
+      <div className="flex-1 p-4 overflow-auto" ref={containerRef}>
+        <div className="flex flex-col gap-4 h-full py-4" ref={messagesRef}>
+          {messages.length > 0 ? (
+            messages.map((m, i) =>
               m.role === "user" ? (
                 <UserMessage key={i} message={m} />
               ) : m.role === "assistant" ? (
                 <BotMessage key={i} message={m} />
               ) : null,
-            )}
-          </div>
-        ) : (
-          <div className="mx-auto text-center w-full max-w-md flex items-center justify-center h-full">
-            <EmptyScreen />
-          </div>
-        )}
+            )
+          ) : (
+            <div className="mx-auto text-center w-full max-w-md flex items-center justify-center h-full">
+              <EmptyScreen />
+            </div>
+          )}
+        </div>
       </div>
       <form
         onSubmit={handleSubmit}
         className="bg-background border-t border-muted px-4 py-3 sticky bottom-0 w-full"
       >
-        <div className="relative" ref={inputRef}>
+        <div className="relative">
           <Input
             placeholder="Type your message..."
             className="w-full rounded-lg pr-16 resize-none"

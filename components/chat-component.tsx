@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { FormEvent, useState } from "react";
 import { CoreMessage, streamText } from "ai";
 import { chromeai } from "chrome-ai";
+import { MemoizedReactMarkdown } from "./markdown";
 
 export function ChatComponent({ error }: { error: any }) {
   const [input, setInput] = useState("");
@@ -134,8 +135,12 @@ const BotMessage = ({ message }: { message: CoreMessage }) => {
         <AvatarFallback>BO</AvatarFallback>
       </Avatar>
       <div className="bg-muted rounded-lg p-3 max-w-[80%]">
-        {/* @ts-expect-error */}
-        <p className="text-sm">{message.content}</p>
+        <p className="text-sm">
+          <MemoizedReactMarkdown className={"prose"}>
+            {/* @ts-expect-error */}
+            {message.content}
+          </MemoizedReactMarkdown>
+        </p>
       </div>
     </div>
   );

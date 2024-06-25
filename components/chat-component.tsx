@@ -25,6 +25,7 @@ import { FormEvent, useState } from "react";
 import { CoreMessage, streamText } from "ai";
 import { chromeai } from "chrome-ai";
 import { MemoizedReactMarkdown } from "./markdown";
+import { EmptyScreen } from "./empty-screen";
 
 export function ChatComponent({ error }: { error: any }) {
   const [input, setInput] = useState("");
@@ -41,9 +42,9 @@ export function ChatComponent({ error }: { error: any }) {
 
     try {
       const { textStream } = await streamText({
-        model: chromeai("generic", {}),
-        system: "Complete the conversation as if you were the model!",
-        messages: newMessages.slice(-1),
+        model: chromeai("text", {}),
+        // system: "Complete the conversation as if you were the model!",
+        prompt: newMessages.slice(-1)[0].content as string,
       });
       for await (const textPart of textStream) {
         setMessages([...newMessages, { role: "assistant", content: textPart }]);
@@ -56,12 +57,18 @@ export function ChatComponent({ error }: { error: any }) {
   return (
     <div className="flex flex-col h-screen">
       <div className="flex-1 overflow-auto p-4 space-y-4">
-        {messages.map((m, i) =>
-          m.role === "user" ? (
-            <UserMessage key={i} message={m} />
-          ) : m.role === "assistant" ? (
-            <BotMessage key={i} message={m} />
-          ) : null,
+        {messages.length > 0 ? (
+          messages.map((m, i) =>
+            m.role === "user" ? (
+              <UserMessage key={i} message={m} />
+            ) : m.role === "assistant" ? (
+              <BotMessage key={i} message={m} />
+            ) : null,
+          )
+        ) : (
+          <div className="mx-auto text-center w-full max-w-md flex items-center justify-center h-full">
+            <EmptyScreen />
+          </div>
         )}
       </div>
       <form

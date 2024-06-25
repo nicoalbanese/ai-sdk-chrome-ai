@@ -31,7 +31,7 @@ import { useScrollAnchor } from "@/lib/hooks/use-scroll-anchor";
 export function ChatComponent({ error }: { error: any }) {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<CoreMessage[]>([]);
-  const { inputRef, messagesRef, scrollToBottom } = useScrollAnchor();
+  const { inputRef, messagesRef } = useScrollAnchor();
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -60,7 +60,7 @@ export function ChatComponent({ error }: { error: any }) {
     <div className="flex flex-col h-screen">
       <div className="flex-1 overflow-auto p-4 space-y-4">
         {messages.length > 0 ? (
-          <div ref={inputRef}>
+          <div ref={messagesRef}>
             {messages.map((m, i) =>
               m.role === "user" ? (
                 <UserMessage key={i} message={m} />

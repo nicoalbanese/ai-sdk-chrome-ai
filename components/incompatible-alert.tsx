@@ -1,6 +1,7 @@
 import { AlertCircle } from "lucide-react";
 
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { ExternalLink } from "./external-link";
 
 type Error = { title: string; description: string };
 
@@ -11,7 +12,7 @@ export function IncompatibleBrowserAlert({ error }: { error: string }) {
     error: string;
     type: "browser" | "version" | "flag";
     title: string;
-    additionalNote?: string;
+    additionalNote?: React.ReactNode;
   }[] = [
     {
       error:
@@ -26,7 +27,19 @@ export function IncompatibleBrowserAlert({ error }: { error: string }) {
         "Your browser is not supported. Please update to 127 version or greater.",
       type: isChrome ? "version" : "browser",
       title: isChrome ? "Please Update Chrome" : "Please Switch to Chrome",
-      additionalNote: "Currently, only Chrome Dev & Canary are supported.",
+      additionalNote: (
+        <>
+          Currently, only Chrome{" "}
+          <ExternalLink href="https://www.google.com/chrome/dev/?extra=devchannel">
+            Dev
+          </ExternalLink>{" "}
+          &{" "}
+          <ExternalLink href="https://www.google.com/chrome/canary/">
+            Canary
+          </ExternalLink>{" "}
+          are supported.
+        </>
+      ),
     },
     {
       error:

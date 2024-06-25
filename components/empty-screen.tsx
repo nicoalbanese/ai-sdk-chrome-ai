@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ExternalLink } from "./external-link";
 
 export const EmptyScreen = () => {
   return (
@@ -8,23 +9,12 @@ export const EmptyScreen = () => {
       </h1>
       <p className="leading-normal">
         This is an open source AI chatbot app template built with{" "}
-        <Link className="underline hover:opacity-70" href="https://nextjs.org">
-          Next.js
-        </Link>
-        , the Vercel{" "}
-        <Link
-          className="underline hover:opacity-70"
-          href="https://sdk.vercel.ai"
-        >
-          AI SDK
-        </Link>
-        , and the{" "}
-        <Link
-          href="https://github.com/jeasonstudio/chrome-ai"
-          className="underline hover:opacity-70"
-        >
+        <ExternalLink href="https://nextjs.org">Next.js</ExternalLink>, the
+        Vercel <ExternalLink href="https://sdk.vercel.ai">AI SDK</ExternalLink>,
+        and the{" "}
+        <ExternalLink href="https://github.com/jeasonstudio/chrome-ai">
           chrome-ai
-        </Link>{" "}
+        </ExternalLink>{" "}
         provider.
       </p>
       <p className="leading-normal">

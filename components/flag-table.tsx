@@ -4,7 +4,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { ExternalLink } from "lucide-react";
+import { ExternalLink } from "./external-link";
 
 export function FlagAccordion() {
   return (

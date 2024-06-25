@@ -12,7 +12,7 @@ import { IncompatibleBrowserAlert } from "./incompatible-alert";
 export function CheckEnv({ error }: { error: any }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-      <div className="h-full sm:h-fit flex flex-col items-center justify-start sm:justify-center gap-4 rounded-lg bg-white p-8 max-w-2xl">
+      <div className="h-full sm:h-fit flex flex-col items-center justify-start sm:justify-center gap-4 sm:rounded-lg bg-white p-8 max-w-2xl overflow-y-scroll">
         <h2 className="text-3xl font-bold">Chrome AI Chatbot</h2>
         <p className="">
           This chatbot demo uses Next.js and Vercel AI SDK with the `chrome-ai`

@@ -10,6 +10,12 @@ export function FlagAccordion() {
   return (
     <Accordion type="single" collapsible className="w-full">
       <AccordionItem value="item-1">
+        <AccordionTrigger>Demo</AccordionTrigger>
+        <AccordionContent>
+          <video src="pineapplepizza.mp4" autoPlay loop />
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-2">
         <AccordionTrigger>Supported Browsers</AccordionTrigger>
         <AccordionContent>
           Please make sure you are using Chrome (
@@ -23,7 +29,7 @@ export function FlagAccordion() {
           ) version 127 or higher.
         </AccordionContent>
       </AccordionItem>
-      <AccordionItem value="item-2">
+      <AccordionItem value="item-3">
         <AccordionTrigger>Necessary Experimental Flags</AccordionTrigger>
         <AccordionContent>
           <p>Once installed, ensure the following flags are set:</p>

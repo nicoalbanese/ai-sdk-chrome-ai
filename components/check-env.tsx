@@ -4,7 +4,6 @@
  * @see https://v0.dev/t/YROtjbTpHPA
  * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
  */
-import { Button } from "@/components/ui/button";
 import { FlagAccordion } from "./flag-table";
 import { IncompatibleBrowserAlert } from "./incompatible-alert";
 import { ExternalLink } from "./external-link";

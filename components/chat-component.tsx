@@ -19,20 +19,22 @@ To read more about using these font, please visit the Next.js documentation:
 - Pages Directory: https://nextjs.org/docs/pages/building-your-application/optimizing/fonts
 **/
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
-import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { FormEvent, useState } from "react";
+import { FormEvent, useState, KeyboardEvent } from "react";
 import { CoreMessage, streamText } from "ai";
 import { chromeai } from "chrome-ai";
 import { MemoizedReactMarkdown } from "./markdown";
 import { EmptyScreen } from "./empty-screen";
+// import { Textarea } from "./ui/textarea";
 
 export function ChatComponent({ error }: { error: any }) {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<CoreMessage[]>([]);
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+  const handleSubmit = async (e?: FormEvent<HTMLFormElement>) => {
+    e?.preventDefault();
+    if (!input.trim()) return;
     const newMessages: CoreMessage[] = [
       ...messages,
       { content: input, role: "user" },
@@ -54,6 +56,13 @@ export function ChatComponent({ error }: { error: any }) {
     }
   };
 
+  const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      handleSubmit();
+    }
+  };
+
   return (
     <div className="flex flex-col h-screen">
       <div className="flex-1 overflow-auto p-4 space-y-4">
@@ -63,7 +72,7 @@ export function ChatComponent({ error }: { error: any }) {
               <UserMessage key={i} message={m} />
             ) : m.role === "assistant" ? (
               <BotMessage key={i} message={m} />
-            ) : null,
+            ) : null
           )
         ) : (
           <div className="mx-auto text-center w-full max-w-md flex items-center justify-center h-full">
@@ -76,13 +85,14 @@ export function ChatComponent({ error }: { error: any }) {
         className="bg-background border-t border-muted px-4 py-3 sticky bottom-0 w-full"
       >
         <div className="relative">
-          <Input
+          <Textarea
             placeholder="Type your message..."
             className="w-full rounded-lg pr-16 resize-none"
             disabled={error}
             value={input}
-            min={8}
             onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            minLength={8}
           />
           <Button
             type="submit"
@@ -124,7 +134,7 @@ const UserMessage = ({ message }: { message: CoreMessage }) => {
     <div className="flex items-start gap-3 justify-end">
       <div className="bg-primary rounded-lg p-3 max-w-[80%] text-primary-foreground">
         {/* @ts-expect-error */}
-        <p className="text-sm">{message.content}</p>
+        <p className="text-sm whitespace-pre-wrap">{message.content}</p>
       </div>
       <Avatar className="w-8 h-8 shrink-0">
         <AvatarImage src="/placeholder-user.jpg" />

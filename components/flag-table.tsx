@@ -5,6 +5,8 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ExternalLink } from "./external-link";
+import { MemoizedReactMarkdown } from "./markdown";
+import { CodeSnippet } from "./code-snippet";
 
 interface FlagAccordionProps {
   value: string | undefined;
@@ -27,6 +29,27 @@ export function FlagAccordion({ value, setValue }: FlagAccordionProps) {
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">
+        <AccordionTrigger>How It Works</AccordionTrigger>
+        <AccordionContent>
+          The code below is all you need to stream text with Chrome AI and the
+          Vercel AI SDK.
+          <pre className="text-sm p-2 bg-secondary rounded-md my-2">
+            {`import { streamText } from "ai";
+import { chromeai } from "chrome-ai";
+
+const { textStream } = await streamText({
+  model: chromeai(),
+  prompt: "what is a large language model?",
+}); `}
+          </pre>
+          <CodeSnippet>chromeai</CodeSnippet> implements a{" "}
+          <ExternalLink href="https://sdk.vercel.ai/providers/ai-sdk-providers">
+            Provider
+          </ExternalLink>{" "}
+          that uses <CodeSnippet>window.ai</CodeSnippet> under the hood
+        </AccordionContent>
+      </AccordionItem>
+      <AccordionItem value="item-3">
         <AccordionTrigger>Supported Browsers</AccordionTrigger>
         <AccordionContent>
           Please make sure you are using Chrome (
@@ -40,7 +63,7 @@ export function FlagAccordion({ value, setValue }: FlagAccordionProps) {
           ) version 127 or higher.
         </AccordionContent>
       </AccordionItem>
-      <AccordionItem value="item-3">
+      <AccordionItem value="item-4">
         <AccordionTrigger>Necessary Experimental Flags</AccordionTrigger>
         <AccordionContent>
           <div className="flex items-center justify-center">

@@ -17,7 +17,7 @@
 ## Features
 
 - [Next.js](https://nextjs.org) App Router
-- [Vercel AI SDK](https://sdk.vercel.ai/docs) for interacting with `window.ai` Gemini Nano model (using [ChromeAI provider](https://github.com/jeasonstudio/chrome-ai))
+- [Vercel AI SDK](https://sdk.vercel.ai/docs) for interacting with `window.ai` Gemini Nano model (using [Chrome AI provider](https://github.com/jeasonstudio/chrome-ai))
 - [shadcn/ui](https://ui.shadcn.com)
   - Styling with [Tailwind CSS](https://tailwindcss.com)
   - [Radix UI](https://radix-ui.com) for headless component primitives

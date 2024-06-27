@@ -27,13 +27,16 @@ import { chromeai } from "chrome-ai";
 import { MemoizedReactMarkdown } from "./markdown";
 import { EmptyScreen } from "./empty-screen";
 import { useScrollAnchor } from "@/lib/hooks/use-scroll-anchor";
+import { cn } from "@/lib/utils";
 
 export function ChatComponent({ error }: { error: any }) {
   const [input, setInput] = useState("");
   const [messages, setMessages] = useState<CoreMessage[]>([]);
   const { containerRef, messagesRef, scrollToBottom } = useScrollAnchor();
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    setLoading(true);
     scrollToBottom();
     e.preventDefault();
     const newMessages: CoreMessage[] = [
@@ -50,10 +53,12 @@ export function ChatComponent({ error }: { error: any }) {
         prompt: newMessages.slice(-1)[0].content as string,
       });
       for await (const textPart of textStream) {
+        setLoading(false);
         setMessages([...newMessages, { role: "assistant", content: textPart }]);
       }
     } catch (e) {
       console.error(e);
+      setLoading(false);
     }
   };
 
@@ -76,6 +81,12 @@ export function ChatComponent({ error }: { error: any }) {
             <div className="mx-auto my-auto text-center w-full max-w-md flex items-center justify-center h-full">
               <EmptyScreen />
             </div>
+          )}
+          {loading && (
+            <BotMessage
+              pending
+              message={{ role: "assistant", content: "..." }}
+            />
           )}
         </div>
       </div>
@@ -142,14 +153,25 @@ const UserMessage = ({ message }: { message: CoreMessage }) => {
   );
 };
 
-const BotMessage = ({ message }: { message: CoreMessage }) => {
+const BotMessage = ({
+  message,
+  pending,
+}: {
+  message: CoreMessage;
+  pending?: boolean;
+}) => {
   return (
     <div className="flex items-start gap-3">
       <Avatar className="w-8 h-8 shrink-0">
         <AvatarImage src="/placeholder-user.jpg" />
         <AvatarFallback>BO</AvatarFallback>
       </Avatar>
-      <div className="bg-muted rounded-lg p-3 max-w-[80%]">
+      <div
+        className={cn(
+          "bg-muted rounded-lg p-3 max-w-[80%]",
+          pending ? "animate-pulse duration-800" : "",
+        )}
+      >
         <p className="text-sm">
           <MemoizedReactMarkdown className={"prose"}>
             {/* @ts-expect-error */}

@@ -25,7 +25,14 @@ export function FlagAccordion({ value, setValue }: FlagAccordionProps) {
       <AccordionItem value="item-1">
         <AccordionTrigger>Demo</AccordionTrigger>
         <AccordionContent>
-          <video src="pineapplepizza.mp4" autoPlay loop />
+          <video
+            src="https://ztaacy9ly66axcws.public.blob.vercel-storage.com/pineapplepizza-ITuvW9hPsygWTDJbW4SJsBtI9Wkh7N.mp4"
+            autoPlay
+            loop
+            height={360}
+            width={780}
+            preload="none"
+          />
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="item-2">

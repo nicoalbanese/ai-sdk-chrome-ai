@@ -7,12 +7,18 @@
 import { FlagAccordion } from "./flag-table";
 import { IncompatibleBrowserAlert } from "./incompatible-alert";
 import { ExternalLink } from "./external-link";
+import { useState } from "react";
 
 export function CheckEnv({ error }: { error: any }) {
+  const [selectedAccordionValue, setSelectedSelectedAccordionValue] = useState<
+    string | undefined
+  >();
+  const openInstructions = () => setSelectedSelectedAccordionValue("item-3");
+
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="h-full sm:h-fit flex flex-col items-center justify-start sm:justify-center gap-4 sm:rounded-lg bg-white p-8 max-w-2xl overflow-y-scroll">
-        <h2 className="text-3xl font-bold">Chrome AI Chatbot</h2>
+        <h2 className="text-3xl font-bold">Next.js Chrome AI Chatbot</h2>
         <p className="">
           This chatbot demo uses Next.js and Vercel AI SDK with the chrome-ai
           provider to call Chrome&apos;s{" "}
@@ -31,9 +37,15 @@ export function CheckEnv({ error }: { error: any }) {
         </p>
         <div className="w-full pt-2 space-y-2">
           <div>
-            <IncompatibleBrowserAlert error={error} />
+            <IncompatibleBrowserAlert
+              error={error}
+              openInstructions={openInstructions}
+            />
           </div>
-          <FlagAccordion />
+          <FlagAccordion
+            value={selectedAccordionValue}
+            setValue={setSelectedSelectedAccordionValue}
+          />
         </div>
       </div>
     </div>

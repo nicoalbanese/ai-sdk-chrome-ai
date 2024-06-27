@@ -20,7 +20,7 @@ export function IncompatibleBrowserAlert({ error }: { error: string }) {
       type: "flag",
       title: "Please Enable Flags",
       additionalNote:
-        "Note: it can take some time before your browser has fully downloaded Gemini Nano.",
+        "Check that you have started downloading the model by going to chrome://components/ and then clicking 'Optimization Guide On Device Model' to download. Note: it can take some time to fully download the model.",
     },
     {
       error:

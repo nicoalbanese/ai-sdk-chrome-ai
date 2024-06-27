@@ -1,12 +1,15 @@
 "use client";
 
 import { ChatComponent } from "@/components/chat-component";
-import { CheckEnv } from "@/components/check-env";
+import { Modal } from "@/components/modal";
 import { checkEnv } from "@/lib/utils";
 import { useEffect, useState } from "react";
 
 export default function Chat() {
   const [error, setError] = useState<any>();
+  const [showModal, setShowModal] = useState(false);
+  const openModal = () => setShowModal(true);
+  const closeModal = () => setShowModal(false);
 
   useEffect(() => {
     const checkBrowser = async () => {
@@ -14,7 +17,10 @@ export default function Chat() {
         await checkEnv();
       } catch (e) {
         console.log(e);
-        if (e instanceof Error) setError(e?.message);
+        if (e instanceof Error) {
+          setError(e?.message);
+          setShowModal(true);
+        }
       }
     };
     checkBrowser();
@@ -22,8 +28,8 @@ export default function Chat() {
 
   return (
     <div>
-      {error && <CheckEnv error={error} />}
-      <ChatComponent error={error} />
+      {showModal && <Modal error={error} closeModal={closeModal} />}
+      <ChatComponent openModal={openModal} error={error} />
     </div>
   );
 }

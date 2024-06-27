@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { GeistSans } from "geist/font/sans";
+import { GeistMono } from "geist/font/mono";
 
 export const metadata: Metadata = {
   title: "Chrome AI - Vercel AI SDK",
@@ -14,7 +15,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={GeistSans.className}>{children}</body>
+      <body
+        className={`antialiased ${GeistSans.variable} ${GeistMono.variable}`}
+      >
+        {children}
+      </body>
     </html>
   );
 }

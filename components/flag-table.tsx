@@ -5,7 +5,6 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import { ExternalLink } from "./external-link";
-import { MemoizedReactMarkdown } from "./markdown";
 import { CodeSnippet } from "./code-snippet";
 
 interface FlagAccordionProps {

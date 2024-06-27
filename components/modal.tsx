@@ -21,6 +21,8 @@ export function Modal({
     string | undefined
   >();
   const openInstructions = () => setSelectedSelectedAccordionValue("item-4");
+  const showSupportedBrowsers = () =>
+    setSelectedSelectedAccordionValue("item-3");
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
@@ -61,6 +63,7 @@ export function Modal({
               <IncompatibleBrowserAlert
                 error={error}
                 openInstructions={openInstructions}
+                showSupportedBrowsers={showSupportedBrowsers}
               />
             </div>
           ) : null}

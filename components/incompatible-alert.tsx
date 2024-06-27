@@ -6,9 +6,11 @@ import { ExternalLink } from "./external-link";
 export function IncompatibleBrowserAlert({
   error,
   openInstructions,
+  showSupportedBrowsers,
 }: {
   error: string;
   openInstructions: () => void;
+  showSupportedBrowsers: () => void;
 }) {
   const userAgent = navigator.userAgent;
   console.log(userAgent);
@@ -44,7 +46,14 @@ export function IncompatibleBrowserAlert({
       title: isChrome ? "Please Update Chrome" : "Please Switch to Chrome",
       message: (
         <>
-          Your browser is not supported.{" "}
+          Your browser is{" "}
+          <button
+            className="underline hover:opacity-70"
+            onClick={() => showSupportedBrowsers()}
+          >
+            not supported
+          </button>
+          .{" "}
           {isChrome ? (
             "Please update Chrome to version 127 or higher."
           ) : (

@@ -20,7 +20,7 @@ To read more about using these font, please visit the Next.js documentation:
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { FormEvent, useState } from "react";
+import { FormEvent, ReactNode, useState } from "react";
 import { CoreMessage, streamText } from "ai";
 import { chromeai } from "chrome-ai";
 import { MemoizedReactMarkdown } from "./markdown";
@@ -149,8 +149,7 @@ const UserMessage = ({ message }: { message: CoreMessage }) => {
   return (
     <div className="flex items-start gap-3 justify-end">
       <div className="bg-primary rounded-lg p-3 max-w-[80%] text-primary-foreground">
-        {/* @ts-expect-error */}
-        <p className="text-sm">{message.content}</p>
+        <p className="text-sm">{message.content as ReactNode}</p>
       </div>
       <Avatar className="w-8 h-8 shrink-0">
         <AvatarImage src="/placeholder-user.jpg" />
@@ -161,6 +160,21 @@ const UserMessage = ({ message }: { message: CoreMessage }) => {
 };
 
 const BotMessage = ({ message }: { message: CoreMessage }) => {
+  let content: string;
+
+  if (Array.isArray(message.content)) {
+    content = message.content.map((part) => {
+      if (typeof part === 'string') {
+        return part;
+      } else if ('content' in part) {
+        return part.content;
+      } else {
+        return '';
+      }
+    }).join(' ');
+  } else {
+    content = message.content as string;
+  }
   return (
     <div className="flex items-start gap-3">
       <Avatar className="w-8 h-8 shrink-0">
@@ -168,12 +182,9 @@ const BotMessage = ({ message }: { message: CoreMessage }) => {
         <AvatarFallback>BO</AvatarFallback>
       </Avatar>
       <div className="bg-muted rounded-lg p-3 max-w-[80%]">
-        <p className="text-sm">
-          <MemoizedReactMarkdown className={"prose"}>
-            {/* @ts-expect-error */}
-            {message.content}
-          </MemoizedReactMarkdown>
-        </p>
+        <MemoizedReactMarkdown className={"prose"}>
+          {content}
+        </MemoizedReactMarkdown>
       </div>
     </div>
   );

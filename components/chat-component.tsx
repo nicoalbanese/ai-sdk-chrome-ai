@@ -171,12 +171,12 @@ const BotMessage = ({ message }: { message: CoreMessage }) => {
         <AvatarFallback>BO</AvatarFallback>
       </Avatar>
       <div className="bg-muted rounded-lg p-3 max-w-[80%]">
-        <p className="text-sm">
+        <div className="text-sm">
           <MemoizedReactMarkdown className={"prose"}>
             {/* @ts-expect-error */}
             {message.content}
           </MemoizedReactMarkdown>
-        </p>
+        </div>
       </div>
     </div>
   );

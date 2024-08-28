@@ -10,6 +10,25 @@ export async function checkEnv() {
     var raw = navigator.userAgent.match(/Chrom(e|ium)\/([0-9]+)\./);
     return raw ? parseInt(raw[2], 10) : 0;
   }
+  // @ts-expect-error
+  if (navigator.userAgentData?.brands) {
+    // @ts-expect-error
+    const isChrome = navigator.userAgentData?.brands.some(
+      // @ts-expect-error
+      (brandInfo) => brandInfo.brand === "Google Chrome",
+    );
+
+    if (!isChrome) {
+      throw new Error(
+        "Your browser is not supported. Please use Google Chrome Dev or Canary.",
+      );
+    }
+  } else {
+    // If brands is not available, we can't determine the browser, so we should handle this case
+    throw new Error(
+      "Your browser is not supported. Please use Google Chrome Dev or Canary.",
+    );
+  }
 
   const version = getChromeVersion();
   if (version < 127) {

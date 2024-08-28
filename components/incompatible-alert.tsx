@@ -74,6 +74,36 @@ export function IncompatibleBrowserAlert({
     },
     {
       error:
+        "Your browser is not supported. Please use Google Chrome Dev or Canary.",
+      type: "browser",
+      title: "Please Switch to Chrome",
+      message: (
+        <>
+          Your browser is{" "}
+          <button
+            className="underline hover:opacity-70"
+            onClick={() => showSupportedBrowsers()}
+          >
+            not supported
+          </button>
+          . (
+          <>
+            Please switch to Chrome (
+            <ExternalLink href="https://www.google.com/chrome/dev/?extra=devchannel">
+              Dev
+            </ExternalLink>{" "}
+            or{" "}
+            <ExternalLink href="https://www.google.com/chrome/canary/">
+              Canary
+            </ExternalLink>
+            ).
+          </>
+          )
+        </>
+      ),
+    },
+    {
+      error:
         "Prompt API is not available, check your configuration in chrome://flags/#prompt-api-for-gemini-nano",
       message:
         "Prompt API is not available, check your configuration in chrome://flags/#prompt-api-for-gemini-nano",

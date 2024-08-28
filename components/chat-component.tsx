@@ -51,12 +51,15 @@ export function ChatComponent({
 
     try {
       const { textStream } = await streamText({
-        model: chromeai("text", {}),
-        // system: "Complete the conversation as if you were the model!",
-        prompt: newMessages.slice(-1)[0].content as string,
+        model: chromeai(),
+        system: "You are an assistant. Respond to every question completely.",
+        prompt: ("User: '" + newMessages.slice(-1)[0].content) as string,
+        // messages: newMessages,
       });
+      let t = "";
       for await (const textPart of textStream) {
-        setMessages([...newMessages, { role: "assistant", content: textPart }]);
+        t = t.concat(textPart);
+        setMessages([...newMessages, { role: "assistant", content: t }]);
       }
     } catch (e) {
       console.error(e);
@@ -150,7 +153,7 @@ const UserMessage = ({ message }: { message: CoreMessage }) => {
     <div className="flex items-start gap-3 justify-end">
       <div className="bg-primary rounded-lg p-3 max-w-[80%] text-primary-foreground">
         {/* @ts-expect-error */}
-        <p className="text-sm">{message.content}</p>
+        <div className="text-sm">{message.content}</div>
       </div>
       <Avatar className="w-8 h-8 shrink-0">
         <AvatarImage src="/placeholder-user.jpg" />

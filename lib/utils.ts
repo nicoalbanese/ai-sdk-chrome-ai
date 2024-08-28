@@ -45,6 +45,12 @@ export async function checkEnv() {
 
   const state = await ai?.assistant.capabilities();
   if (state.available !== "readily") {
+    try {
+      await window.ai.assistant.create();
+    } catch (e) {
+      console.error(e);
+    }
+
     throw new Error(
       "Built-in AI is not ready, check your configuration in chrome://flags/#optimization-guide-on-device-model",
     );

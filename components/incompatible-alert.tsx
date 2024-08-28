@@ -13,7 +13,6 @@ export function IncompatibleBrowserAlert({
   showSupportedBrowsers: () => void;
 }) {
   const userAgent = navigator.userAgent;
-  console.log(userAgent);
   const isChrome = userAgent.toLowerCase().includes("chrome");
   const possibleErrors: {
     error: string;

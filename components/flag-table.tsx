@@ -115,6 +115,6 @@ const flags: { flag: string; instruction: string }[] = [
   },
   {
     flag: "chrome://components",
-    instruction: `Click 'Check for Update' on Optimization Guide On Device Model to download the model. If you don't see Optimization Guide, ensure you have set the flags correctly above, relaunch your browser, and refresh the page.`,
+    instruction: `Click 'Check for Update' on Optimization Guide On Device Model to download the model. If you don't see Optimization Guide, ensure you have set the flags correctly above. If you still don't see Optimization Guide, run 'await window.ai.assistant.create();' in your browser console, then refresh the page.`,
   },
 ];
